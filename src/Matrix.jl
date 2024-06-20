@@ -55,17 +55,13 @@ end
 Matrix of an operator op : ``Alg(G) → T_p M``
 computed in the basis `BG` and `BM`.
 """
-function get_op_matrix(G, # group
+get_op_matrix(G, # group
                         M, p, # manifold + point
                         op, # operator from Alg(G) -> T_pM
                         BG::AbstractBasis, # Lie algebra basis
                         BM::AbstractBasis, # basis at T_pM
-                        )
-    return compose_matrix_op(G, M, p, op, get_id_matrix_lie(G), BG, BM)
-end
+                        ) = compose_matrix_op(G, M, p, op, get_id_matrix_lie(G), BG, BM)
 
-
-function compose_lie_matrix_op(
 """
     compose_lie_matrix_op(
         G, # group
@@ -78,14 +74,12 @@ Compute the matrix in the basis `B`
 of the composition of `op` a linear endomorphism  of Alg(G)
 and a matrix `mat`, also expressed in the basis `B`.
 """
+compose_lie_matrix_op(
     G, # group
     op, # operator Alg(G) -> Alg(G)
     mat, # matrix in the basis
     B::AbstractBasis # basis of Alg(G)
-    )
-    return compose_matrix_op(G, G, identity_element(G), op, mat, B, B)
-end
-
+    ) = compose_matrix_op(G, G, identity_element(G), op, mat, B, B)
 
 
 """
@@ -98,16 +92,11 @@ end
 Compute the matrix in the basis `B`
  of an operator `op` on a Lie algebra Alg(G).
 """
-function matrix_from_lin_endomorphism(
+matrix_from_lin_endomorphism(
     G, # group
     op, # Alg(G) -> Alg(G)
     B::AbstractBasis # basis of Alg(G)
-    )
-    return compose_lie_matrix_op(G, op, get_id_matrix_lie(G), B)
-end
-
-# inverse_adjoint_action(G::AbstractDecoratorManifold, p, X) = adjoint_action(G, inv(G, p), X)
-
+    ) = compose_lie_matrix_op(G, op, get_id_matrix_lie(G), B)
 
 
 """
