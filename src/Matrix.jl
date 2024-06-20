@@ -1,6 +1,8 @@
 
 """
-The identity matrix on Lie algebra.
+    get_id_matrix_lie(G)
+
+The identity matrix on the Lie algebra of the group `G`.
 """
 function get_id_matrix_lie(G) 
     dim = manifold_dimension(G)
@@ -10,8 +12,17 @@ end
 
 
 """
+    compose_matrix_op(
+      G, # group
+      M,p, # Manifold, point
+      op, # operator Alg(G) -> T_pM
+      mat, # matrix in basis BG
+      BG, # basis of Alg(G)
+      BM, # basis of T_pM
+      )
+
 Compose a matrix `mat` of a linear endomorphism of Alg(G)
-in some basis `BG`` with an operator op : ``Alg(G) → T_p M``
+in some basis `BG` with an operator op : ``Alg(G) → T_p M``
 itself equipped with a basis `BM`.
 """
 function compose_matrix_op(
@@ -37,7 +48,15 @@ function compose_matrix_op(
 end
 
 """
-Matrix of operator op : Alg(G) → T_p M
+    get_op_matrix(G, # group
+      M, p, # manifold + point
+      op, # operator from Alg(G) -> T_pM
+      BG, # Lie algebra basis
+      BM, # basis at T_pM
+      )
+
+Matrix of an operator op : ``Alg(G) → T_p M``
+computed in the basis `BG` and `BM`.
 """
 function get_op_matrix(G, # group
                         M, p, # manifold + point
@@ -54,6 +73,18 @@ end
 
 
 function compose_lie_matrix_op(
+"""
+    compose_lie_matrix_op(
+        G, # group
+        op, # operator Alg(G) -> Alg(G)
+        mat, # matrix in the basis
+        B # basis of Alg(G)
+        )
+
+Compute the matrix in the basis `B`
+of the composition of `op` a linear endomorphism  of Alg(G)
+and a matrix `mat`, also expressed in the basis `B`.
+"""
     G, # group
     op, # operator Alg(G) -> Alg(G)
     mat, # matrix in the basis
@@ -70,7 +101,14 @@ end
 
 
 """
-Compute the matrix of an operator on a Lie algebra.
+    matrix_from_lin_endomorphism(
+        G, # group
+        op, # Alg(G) -> Alg(G)
+        B # basis of Alg(G)
+        )
+
+Compute the matrix in the basis `B`
+ of an operator `op` on a Lie algebra Alg(G).
 """
 function matrix_from_lin_endomorphism(
     G, # group
@@ -85,7 +123,14 @@ end
 
 
 """
-Projection matrix from Alg(G) to T_xM
+    get_proj_matrix(A::GroupAction, x, BG, BM)
+
+From a group action ``G ⊂ Diff(M)``,
+and a point ``x ∈ M``,
+compute the projection matrix in the basis `BG` of Alg(G)
+and `BM` of ``T_x M``
+of the operator ``ξ ↦ ξ ⋅x``, where ``⋅`` denotes the
+infinitesimal group action above.
 """
 function get_proj_matrix(A::AbstractGroupAction, x, BG, BM)
     G = base_group(A)
