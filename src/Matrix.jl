@@ -120,19 +120,9 @@ and `BM` of ``T_x M``
 of the operator ``ξ ↦ ξ ⋅x``, where ``⋅`` denotes the
 infinitesimal group action above.
 """
-function get_proj_matrix(A::AbstractGroupAction, x, BG, BM)
+get_proj_matrix(A::AbstractGroupAction, x, BG, BM) = begin
     G = base_group(A)
-    M = group_manifold(A)
-    idim = manifold_dimension(G)
-    odim = manifold_dimension(M)
-    T = ManifoldsBase.allocate_result_type(G, typeof(get_proj_matrix), ())
-    rmat = Array{T}(undef, odim, idim)
-
-    mat = get_id_matrix_lie(G)
-    for (v, rv) in zip(eachcol(mat), eachcol(rmat))
-        bvec = get_vector_lie(G, v, BG)
-        mvec = apply_diff_group(A, Identity(G), bvec, x)
-        rv[:] = get_coordinates(M, x, mvec, BM)
-    end
-    return rmat
+    op(ξ) = apply_diff_group(A, Identity(G), ξ, x)
+    mat = GroupTools.get_id_matrix_lie(G)
+    return GroupTools.compose_matrix_op(G, group_manifold(A), x, op, mat, BG, BM)
 end

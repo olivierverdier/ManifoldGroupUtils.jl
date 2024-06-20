@@ -44,6 +44,31 @@ end
 end
 
 
+function get_proj_matrix_(A::AbstractGroupAction, x, BG, BM)
+    G = base_group(A)
+    M = group_manifold(A)
+    idim = manifold_dimension(G)
+    odim = manifold_dimension(M)
+    T = ManifoldsBase.allocate_result_type(G, typeof(get_proj_matrix_), ())
+    rmat = Array{T}(undef, odim, idim)
+
+    mat = GroupTools.get_id_matrix_lie(G)
+    for (v, rv) in zip(eachcol(mat), eachcol(rmat))
+        bvec = get_vector_lie(G, v, BG)
+        mvec = apply_diff_group(A, Identity(G), bvec, x)
+        rv[:] = get_coordinates(M, x, mvec, BM)
+    end
+    return rmat
+end
+
+
+check_proj_matrix(A, x) = begin
+    args = A, x, DefaultOrthogonalBasis(), DefaultOrthogonalBasis()
+    computed = GroupTools.get_proj_matrix(args...)
+    expected = get_proj_matrix_(args...)
+    return expected ≈ computed
+end
+
 @testset "proj_matrix" begin
     A = RotationAction(Euclidean(4), SpecialOrthogonal(4))
     x = rand(rng, group_manifold(A))
