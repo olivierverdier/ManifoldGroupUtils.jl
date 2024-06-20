@@ -42,9 +42,6 @@ function compose_matrix_op(
         rb[:] = get_coordinates(M, p, vec, BM)
     end
     return rmat
-    # vecs = [op(get_vector_lie(G, b, BG)) for b in eachcol(mat)]
-    # cols = [get_coordinates(M, p, vec, BM) for vec in vecs]
-    # return hcat(cols...)
 end
 
 """
@@ -65,10 +62,6 @@ function get_op_matrix(G, # group
                         BM::AbstractBasis, # basis at T_pM
                         )
     return compose_matrix_op(G, M, p, op, get_id_matrix_lie(G), BG, BM)
-    # basis = get_basis_lie(G, BG)
-    # vecs = [op(b) for b in basis]
-    # cols = [get_coordinates(M, p, vec, BM) for vec in vecs]
-    # return hcat(cols...)
 end
 
 
@@ -90,12 +83,7 @@ and a matrix `mat`, also expressed in the basis `B`.
     mat, # matrix in the basis
     B::AbstractBasis # basis of Alg(G)
     )
-    # basis = get_basis_lie(G, B)
-    # vecs = [op(b) for b in basis]
     return compose_matrix_op(G, G, identity_element(G), op, mat, B, B)
-    # vecs = [op(get_vector_lie(G, c, B)) for c in eachcol(mat)]
-    # cols = [get_coordinates_lie(G, vec, B) for vec in vecs]
-    # return hcat(cols...)
 end
 
 
