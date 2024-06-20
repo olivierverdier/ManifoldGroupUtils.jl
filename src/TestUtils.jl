@@ -19,13 +19,20 @@ _get_side(::RightAction) = LeftSide()
 _transporter(G, χ, ξ, dir) = move(G, χ, ξ, _get_side(dir))
 
 """
+    check_apply_diff_group(
+        A::AbstractGroupAction{TAD}, # group action G ⊂ Diff(M)
+        χ, # element of G
+        ξ, # element of Alg(G)
+        p, # element of M
+    )
+
 This should hold for *any* group action ``A`` on any manifold.
-If you define ``π_x(g) := A(g, x)`` for ``g ∈ G`` and ``x ∈ M``,
-and define, for ``ξ in Alg(G)``,
- ``T_R(g, ξ) := ξg`` (the right translation),
-and ``T_L(g, ξ) := gξ`` (the left translation), then we have the identity:
+If you define ``π_p(χ) := A(χ, p)`` for ``χ ∈ G`` and ``p ∈ M``,
+and define, for ``ξ ∈ Alg(G)``,
+ ``T_R(χ, ξ) := ξχ`` (the right translation),
+and ``T_L(χ, ξ) := χξ`` (the left translation), then we have the identity:
 ```math
-⟨Dπ_{x}(g), T(g, ξ)⟩ = ⟨Dπ_{A(g,x)}(1), ξ⟩
+⟨Dπ_{p}(χ), T(χ, ξ)⟩ = ⟨Dπ_{A(χ,p)}(1), ξ⟩
 ```
 where, for a *left* action, ``T`` is the *right* translation,
 and for a *right* action, ``T`` is the *left* translation.
@@ -41,21 +48,28 @@ end
 #--------------------------------
 
 """
-Test the differential of the inverse on a Lie group.
-Denote this inverse by ``I(g) := g^{-1}``.
-If the left and right transports are ``T_L(g,ξ) := gξ``
-and ``T_R(g,ξ) := ξg`` respectively, then
+    check_inv_diff(
+      G, # Group
+      χ, # group element
+      ξ, # Lie algebra element
+      side::Manifolds.GroupActionSide,
+      )
+
+Test the differential of the inverse on a Lie group `G`.
+Denote this inverse by ``I(χ) := χ^{-1}``.
+If the left and right transports are ``T_L(χ,ξ) := χξ``
+and ``T_R(χ,ξ) := ξχ`` respectively, then
 ```math
-⟨DI(g), T_L(g,ξ)⟩ = -T_R(g^{-1}, ξ)
+⟨DI(χ), T_L(χ,ξ)⟩ = -T_R(χ^{-1}, ξ)
 ```
 and
 ``` math
-⟨DI(g), T_R(g,ξ)⟩ = -T_L(g^{-1}, ξ)
+⟨DI(χ), T_R(χ,ξ)⟩ = -T_L(χ^{-1}, ξ)
 ```
 """
-check_inv_diff(G, χ, ξ, conv) = begin
+check_inv_diff(G, χ, ξ, side) = begin
     χ_ = inv(G, χ)
-    computed = inv_diff(G, χ, move(G, χ, ξ, conv))
-    expected = -move(G, χ_, ξ, switch_side(conv))
+    computed = inv_diff(G, χ, move(G, χ, ξ, side))
+    expected = -move(G, χ_, ξ, switch_side(side))
     return isapprox(TangentSpace(G, χ_), computed, expected)
 end
