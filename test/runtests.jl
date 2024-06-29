@@ -126,3 +126,7 @@ end
 end
 
 
+@testset "eltype rand_lie" begin
+    G = Unitary(4)
+    @test eltype(GroupTools.rand_lie(rng, G)) <: Complex
+end
