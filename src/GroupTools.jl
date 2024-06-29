@@ -16,7 +16,6 @@ import Manifolds:
 import LinearAlgebra # just for `I`, the identity object
 
 include("Matrix.jl")
-include("TestUtils.jl")
 
 algebra(G) = TangentSpace(G, identity_element(G))
 inverse_adjoint_action(G::AbstractDecoratorManifold, p, X) = adjoint_action(G, inv(G, p), X)
