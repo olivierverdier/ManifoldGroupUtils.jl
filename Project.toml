@@ -1,7 +1,7 @@
 name = "GroupTools"
 uuid = "1a3c8808-2843-4c72-af8e-d50ed15039bf"
 authors = ["Olivier Verdier <olivier.verdier@gmail.com> and contributors"]
-version = "1.0.0-DEV"
+version = "0.1.0"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
@@ -10,6 +10,8 @@ ManifoldsBase = "3362f125-f0bb-47a3-aa74-596ffd7ef2fb"
 
 [compat]
 julia = "1.6.7"
+Manifolds = "0.9.18"
+ManifoldsBase = "0.15"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
