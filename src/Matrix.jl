@@ -4,7 +4,7 @@
 
 The identity matrix on the Lie algebra of the group `G`.
 """
-function get_id_matrix_lie(G) 
+function get_id_matrix_lie(G)
     dim = manifold_dimension(G)
     T = ManifoldsBase.allocate_result_type(G, typeof(get_id_matrix_lie), ())
     return Matrix{T}(LinearAlgebra.I, dim, dim)
