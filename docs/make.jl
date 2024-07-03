@@ -1,4 +1,13 @@
-push!(LOAD_PATH, "../src/")
+
+if Base.active_project() != joinpath(@__DIR__, "Project.toml")
+    using Pkg
+    Pkg.activate(@__DIR__)
+    Pkg.develop(PackageSpec(; path=(@__DIR__) * "/../"))
+    Pkg.resolve()
+    Pkg.instantiate()
+    @show Pkg.status()
+end
+
 
 using Documenter
 using GroupTools
