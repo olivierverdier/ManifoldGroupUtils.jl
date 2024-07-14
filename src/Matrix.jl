@@ -112,6 +112,6 @@ infinitesimal group action above.
 get_proj_matrix(A::AbstractGroupAction, x, BG, BM) = begin
     G = base_group(A)
     op(ξ) = apply_diff_group(A, Identity(G), ξ, x)
-    mat = GroupTools.get_id_matrix_lie(G)
-    return GroupTools.compose_matrix_op(G, group_manifold(A), x, op, mat, BG, BM)
+    mat = get_id_matrix_lie(G)
+    return compose_matrix_op(G, group_manifold(A), x, op, mat, BG, BM)
 end

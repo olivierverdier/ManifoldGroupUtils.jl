@@ -1,4 +1,4 @@
-name = "GroupTools"
+name = "ManifoldGroupUtils"
 uuid = "1a3c8808-2843-4c72-af8e-d50ed15039bf"
 authors = ["Olivier Verdier <olivier.verdier@gmail.com> and contributors"]
 version = "0.1.0"

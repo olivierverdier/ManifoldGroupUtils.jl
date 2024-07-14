@@ -1,4 +1,4 @@
-using GroupTools
+using ManifoldGroupUtils
 using Test
 using Manifolds
 import ManifoldsBase
@@ -18,7 +18,7 @@ check_compose_matrix_op(A, mat, p) = begin
     M = group_manifold(A)
     op(ξ) = apply_diff_group(A, Identity(G), ξ, p)
     args = G, M, p, op, mat, DefaultOrthogonalBasis(), DefaultOrthogonalBasis()
-    computed = GroupTools.compose_matrix_op(args...)
+    computed = ManifoldGroupUtils.compose_matrix_op(args...)
     expected = compose_matrix_op_(args...)
     return computed ≈ expected
 end
@@ -44,7 +44,7 @@ function get_proj_matrix_(A::AbstractGroupAction, x, BG, BM)
     T = ManifoldsBase.allocate_result_type(G, typeof(get_proj_matrix_), ())
     rmat = Array{T}(undef, odim, idim)
 
-    mat = GroupTools.get_id_matrix_lie(G)
+    mat = ManifoldGroupUtils.get_id_matrix_lie(G)
     for (v, rv) in zip(eachcol(mat), eachcol(rmat))
         bvec = get_vector_lie(G, v, BG)
         mvec = apply_diff_group(A, Identity(G), bvec, x)
@@ -56,7 +56,7 @@ end
 
 check_proj_matrix(A, x) = begin
     args = A, x, DefaultOrthogonalBasis(), DefaultOrthogonalBasis()
-    computed = GroupTools.get_proj_matrix(args...)
+    computed = ManifoldGroupUtils.get_proj_matrix(args...)
     expected = get_proj_matrix_(args...)
     return expected ≈ computed
 end
@@ -76,7 +76,7 @@ end
 
 
 get_basis_lie(G, B::AbstractBasis) = begin
-    imat = GroupTools.get_id_matrix_lie(G)
+    imat = ManifoldGroupUtils.get_id_matrix_lie(G)
     basis = [get_vector_lie(G, coord, B)
              for coord in eachcol(imat)]
     return basis
@@ -87,7 +87,7 @@ check_get_op_matrix(A, p) = begin
     M = group_manifold(A)
     op(ξ) = apply_diff_group(A, Identity(G), ξ, p)
     args = G, M, p, op, DefaultOrthogonalBasis(), DefaultOrthogonalBasis()
-    computed = GroupTools.get_op_matrix(args...)
+    computed = ManifoldGroupUtils.get_op_matrix(args...)
     expected = get_op_matrix_(args...)
     return computed ≈ expected
 end
@@ -112,7 +112,7 @@ end
     B = DefaultOrthogonalBasis()
     op(ξ) = get_vector_lie(G, mat_op*get_coordinates_lie(G, ξ, B), B)
     computed_ = compose_lie_matrix_op_(G, op, mat, B)
-    computed = GroupTools.compose_lie_matrix_op(G, op, mat, B)
+    computed = ManifoldGroupUtils.compose_lie_matrix_op(G, op, mat, B)
     expected = mat_op * mat
     @test computed ≈ expected
 end
@@ -120,5 +120,5 @@ end
 
 @testset "eltype rand_lie" begin
     G = Unitary(4)
-    @test eltype(GroupTools.rand_lie(rng, G)) <: Complex
+    @test eltype(ManifoldGroupUtils.rand_lie(rng, G)) <: Complex
 end

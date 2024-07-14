@@ -1,4 +1,4 @@
-module GroupTools
+module ManifoldGroupUtils
 
 import ManifoldsBase
 import Manifolds:

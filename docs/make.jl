@@ -9,19 +9,19 @@ end
 
 
 using Documenter
-using GroupTools
+using ManifoldGroupUtils
 
 
 makedocs(
-    sitename = "GroupTools",
+    sitename = "ManifoldGroupUtils",
     format = Documenter.HTML(),
-    modules = [GroupTools]
+    modules = [ManifoldGroupUtils]
 )
 
 # Documenter can also automatically deploy documentation to gh-pages.
 # See "Hosting Documentation" and deploydocs() in the Documenter manual
 # for more information.
 deploydocs(
-    repo="github.com/olivierverdier/GroupTools.jl.git",
+    repo="github.com/olivierverdier/ManifoldGroupUtils.jl.git",
     push_preview=true,
 )
