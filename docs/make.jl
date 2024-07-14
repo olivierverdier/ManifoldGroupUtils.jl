@@ -1,11 +1,10 @@
 
 if Base.active_project() != joinpath(@__DIR__, "Project.toml")
-    using Pkg
+    import Pkg
     Pkg.activate(@__DIR__)
-    Pkg.develop(PackageSpec(; path=(@__DIR__) * "/../"))
+    Pkg.develop(Pkg.PackageSpec(; path=(@__DIR__) * "/../"))
     Pkg.resolve()
     Pkg.instantiate()
-    @show Pkg.status()
 end
 
 
@@ -24,4 +23,5 @@ makedocs(
 # for more information.
 deploydocs(
     repo="github.com/olivierverdier/GroupTools.jl.git",
+    push_preview=true,
 )
