@@ -67,6 +67,17 @@ end
     @test check_proj_matrix(A, x)
 end
 
+@testset "proj_matrix Sphere" begin
+    G = SpecialOrthogonal(3)
+    S = Sphere(2)
+    A = RotationAction(S, G)
+    x = [1., 0, 0]
+    BG = DefaultOrthogonalBasis()
+    BM = DefaultOrthonormalBasis()
+    P = ManifoldGroupUtils.get_proj_matrix(A, x, BG, BM)
+    @test P[:,1] ≈ [0,0]
+end
+
 get_op_matrix_(G, M, p, op, BG, BM) = begin
     basis = get_basis_lie(G, BG)
     vecs = [op(b) for b in basis]

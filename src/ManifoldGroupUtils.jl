@@ -1,18 +1,7 @@
 module ManifoldGroupUtils
 
 import ManifoldsBase
-import Manifolds:
-    AbstractDecoratorManifold, TangentSpace,
-    manifold_dimension,
-    AbstractBasis, get_vector_lie, get_coordinates,
-    identity_element
-import Manifolds:
-    Identity
-import Manifolds:
-    AbstractGroupAction, base_group, group_manifold,
-    LeftAction, RightAction, LeftSide, RightSide, apply, apply_diff_group,
-    translate_diff, inv_diff, switch_side,
-    adjoint_action
+using Manifolds
 import LinearAlgebra # just for `I`, the identity object
 
 include("Matrix.jl")
@@ -34,6 +23,7 @@ Random element in the Lie algebra of the group `G`.
 """
 rand_lie(rng, G) = rand(rng, algebra(G))
 
+include("rotation_action.jl")
 
 
 end
