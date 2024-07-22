@@ -1,6 +1,6 @@
 # ManifoldGroupUtils
 
-A couple of tools to compute matrices of opearators in relation with groups and manifolds.
+A couple of tools to compute matrices of operators in relation with groups and manifolds.
 The main function computes the matrix of the composition of a given matrix on a Lie algebra
 with a linear operator taking values in a tangent space of a manifold.
 
