@@ -133,3 +133,14 @@ end
     G = Unitary(4)
     @test eltype(ManifoldGroupUtils.rand_lie(rng, G)) <: Complex
 end
+
+@testset "translate to/from id" for
+    G in [SpecialOrthogonal(3)]
+    χ = rand(rng, G)
+    for side in [LeftSide(), RightSide()]
+        ξ = rand_lie(rng, G)
+        v = translate_from_id(G, χ, ξ, side)
+        ξ_ = translate_to_id(G, χ, v, side)
+        @test isapprox(algebra(G), ξ, ξ_)
+    end
+end
