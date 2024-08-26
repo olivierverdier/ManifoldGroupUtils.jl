@@ -152,3 +152,19 @@ end
         @test isapprox(algebra(G), ξ_, ξ___)
     end
 end
+
+import ManifoldGroupTesting as GT
+
+@testset "Exponential" for
+    G in [SpecialOrthogonal(3)]
+    χ1, χ2 = [rand(rng, G) for i in 1:2]
+    ξ1, ξ2 = [rand_lie(rng, G) for i in 1:2]
+    v1 = translate_from_id(G, χ1, ξ1, LeftSide())
+    @test GT.check_exp_invariant(G, exp_group, χ1, v1, χ2)
+    @test GT.check_exp_log(G, exp_group, log_group, χ1, χ2)
+    @test GT.check_log_exp(G, log_group, exp_group, χ1, v1)
+    v = similar(v1)
+    @test GT.check_log_log_(G, log_group, log_group!, v, χ1, χ2)
+    χ = similar(χ1)
+    @test GT.check_exp_exp_(G, exp_group, exp_group!, χ, χ1, v1)
+end

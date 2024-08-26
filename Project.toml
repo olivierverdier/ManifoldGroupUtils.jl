@@ -9,13 +9,14 @@ Manifolds = "1cead3c2-87b3-11e9-0ccd-23c62b72b94e"
 ManifoldsBase = "3362f125-f0bb-47a3-aa74-596ffd7ef2fb"
 
 [compat]
-julia = "1.6.7"
 Manifolds = "0.9.18"
 ManifoldsBase = "0.15"
+julia = "1.6.7"
 
 [extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+ManifoldGroupTesting = "3d9140b9-2699-468e-abff-6b59d65ee1fd"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test", "Random"]
+test = ["Test", "Random", "ManifoldGroupTesting"]

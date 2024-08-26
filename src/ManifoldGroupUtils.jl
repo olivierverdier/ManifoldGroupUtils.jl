@@ -8,7 +8,9 @@ include("Matrix.jl")
 
 export algebra, rand_lie,
     translate_to_id, translate_to_id!,
-    translate_from_id, translate_from_id!
+    translate_from_id, translate_from_id!,
+    exp_group, exp_group!,
+    log_group, log_group!
 
 """
     algebra(G)
@@ -54,7 +56,8 @@ Random element in the Lie algebra of the group `G`.
 """
 rand_lie(rng, G) = rand(rng, algebra(G))
 
-include("rotation_action.jl")
+include("Exponential.jl")
 
+include("rotation_action.jl")
 
 end
