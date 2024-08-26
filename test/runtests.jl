@@ -142,5 +142,13 @@ end
         v = translate_from_id(G, χ, ξ, side)
         ξ_ = translate_to_id(G, χ, v, side)
         @test isapprox(algebra(G), ξ, ξ_)
+        v_ = similar(v)
+        v___ = translate_from_id!(G, v_, χ, ξ, side)
+        @test v___ === v_
+        @test isapprox(TangentSpace(G, χ), v___, v)
+        ξ__ = similar(ξ)
+        ξ___ = translate_to_id!(G, ξ__, χ, v, side)
+        @test ξ___ === ξ__
+        @test isapprox(algebra(G), ξ_, ξ___)
     end
 end

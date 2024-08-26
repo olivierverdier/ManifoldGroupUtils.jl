@@ -6,7 +6,9 @@ import LinearAlgebra # just for `I`, the identity object
 
 include("Matrix.jl")
 
-export algebra, rand_lie, translate_to_id, translate_from_id
+export algebra, rand_lie,
+    translate_to_id, translate_to_id!,
+    translate_from_id, translate_from_id!
 
 """
     algebra(G)
@@ -18,7 +20,8 @@ algebra(G) = TangentSpace(G, identity_element(G))
 #$ TODO: should be adjoint_action(G, p, X, RightAction())
 inverse_adjoint_action(G::AbstractDecoratorManifold, p, X) = adjoint_action(G, inv(G, p), X)
 
-translate_diff_id(G, χ, ξ, conv) = translate_diff(G, χ, identity_element(G), ξ, conv)
+translate_diff_id(G, χ, ξ, conv) = translate_diff(G, χ, Identity(G), ξ, conv)
+translate_diff_id!(G, tmp, χ, ξ, conv) = translate_diff!(G, tmp, χ, Identity(G), ξ, conv)
 
 """
     translate_to_id(G, χ, v, ::GroupActionSide)
@@ -27,6 +30,8 @@ Compute ``η = v χ⁻¹``, or ``χ⁻¹ v`` depending on whether the group acti
 """
 translate_to_id(G, χ, v, ::RightSide) = inverse_translate_diff(G, χ, χ, v, (RightAction(), RightSide()))
 translate_to_id(G, χ, v, ::LeftSide) = inverse_translate_diff(G, χ, χ, v, (LeftAction(), LeftSide()))
+translate_to_id!(G, tmp, χ, v, ::RightSide) = inverse_translate_diff!(G, tmp, χ, χ, v, (RightAction(), RightSide()))
+translate_to_id!(G, tmp, χ, v, ::LeftSide) = inverse_translate_diff!(G, tmp, χ, χ, v, (LeftAction(), LeftSide()))
 
 
 
@@ -38,6 +43,8 @@ The left translation ``T_L(g,ξ) = gξ`` for the `Left` side,
 """
 translate_from_id(G, χ, ξ, ::LeftSide) = translate_diff_id(G, χ, ξ, (LeftAction(), LeftSide()))
 translate_from_id(G, χ, ξ, ::RightSide) = translate_diff_id(G, χ, ξ, (RightAction(), RightSide()))
+translate_from_id!(G, tmp, χ, ξ, ::LeftSide) = translate_diff_id!(G, tmp, χ, ξ, (LeftAction(), LeftSide()))
+translate_from_id!(G, tmp, χ, ξ, ::RightSide) = translate_diff_id!(G, tmp, χ, ξ, (RightAction(), RightSide()))
 
 
 """
