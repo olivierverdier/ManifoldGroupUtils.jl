@@ -19,8 +19,7 @@ The tangent space at identity of the group G.
 """
 algebra(G) = TangentSpace(G, identity_element(G))
 
-#$ TODO: should be adjoint_action(G, p, X, RightAction())
-inverse_adjoint_action(G::AbstractDecoratorManifold, p, X) = adjoint_action(G, inv(G, p), X)
+@deprecate inverse_adjoint_action(G::AbstractDecoratorManifold, χ, X) adjoint_action(G, χ, ξ, RightAction())
 
 translate_diff_id(G, χ, ξ, conv) = translate_diff(G, χ, Identity(G), ξ, conv)
 translate_diff_id!(G, tmp, χ, ξ, conv) = translate_diff!(G, tmp, χ, Identity(G), ξ, conv)
