@@ -115,11 +115,16 @@ compose_lie_matrix_op_(G, op, mat, B) = begin
     return hcat(cols...)
 end
 
-check_compose_lie_matrix_op(G, mat, mat_op) = begin
-    B = DefaultOrthogonalBasis()
+check_compose_lie_matrix_op(G, mat_op, mat=nothing) = begin
+      B = DefaultOrthogonalBasis()
     op(ξ) = get_vector_lie(G, mat_op * get_coordinates_lie(G, ξ, B), B)
-    computed = ManifoldGroupUtils.compose_lie_matrix_op(G, op, mat, B)
-    expected = mat_op * mat
+    if mat === nothing
+        computed = ManifoldGroupUtils.matrix_from_lin_endomorphism(G, op, B)
+        expected = mat_op
+    else
+        computed = ManifoldGroupUtils.compose_lie_matrix_op(G, op, mat, B)
+        expected = mat_op * mat
+    end
     return computed ≈ expected
 end
 
@@ -128,7 +133,8 @@ end
     d = manifold_dimension(G)
     mat = rand(rng, d, d)
     mat_op = rand(rng, d, d)
-    @test check_compose_lie_matrix_op(G, mat, mat_op)
+    @test check_compose_lie_matrix_op(G, mat_op, mat)
+    @test check_compose_lie_matrix_op(G, mat_op)
 end
 
 
