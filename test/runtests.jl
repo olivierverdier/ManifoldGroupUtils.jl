@@ -179,8 +179,8 @@ end
     χ1 = rand(rng, G)
     χ2 = rand(rng, G)
     p = rand(S)
-    GT.check_action_morphism(A, χ1, χ2, p)
-    GT.check_apply_morphism_Identity(A, p)
-    GT.check_trivial_infinitesimal_action(A, p, identity_element)
-    GT.check_switch_action_direction(A, χ1, p)
+    @test GT.check_action_morphism(A, χ1, χ2, p)
+    @test GT.check_apply_morphism_Identity(A, p)
+    @test GT.check_trivial_infinitesimal_action(A, p, identity_element)
+    @test GT.check_switch_action_direction(A, χ1, p)
 end
