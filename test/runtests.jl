@@ -115,17 +115,20 @@ compose_lie_matrix_op_(G, op, mat, B) = begin
     return hcat(cols...)
 end
 
+check_compose_lie_matrix_op(G, mat, mat_op) = begin
+    B = DefaultOrthogonalBasis()
+    op(ξ) = get_vector_lie(G, mat_op * get_coordinates_lie(G, ξ, B), B)
+    computed = ManifoldGroupUtils.compose_lie_matrix_op(G, op, mat, B)
+    expected = mat_op * mat
+    return computed ≈ expected
+end
+
 @testset "compose_lie_matrix_op" begin
     G = SpecialOrthogonal(3)
     d = manifold_dimension(G)
     mat = rand(rng, d, d)
     mat_op = rand(rng, d, d)
-    B = DefaultOrthogonalBasis()
-    op(ξ) = get_vector_lie(G, mat_op*get_coordinates_lie(G, ξ, B), B)
-    computed_ = compose_lie_matrix_op_(G, op, mat, B)
-    computed = ManifoldGroupUtils.compose_lie_matrix_op(G, op, mat, B)
-    expected = mat_op * mat
-    @test computed ≈ expected
+    @test check_compose_lie_matrix_op(G, mat, mat_op)
 end
 
 
