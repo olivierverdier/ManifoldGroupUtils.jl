@@ -183,10 +183,12 @@ end
     S = Sphere(2)
     A = RotationAction(S, G)
     χ1 = rand(rng, G)
+    ξ1 = rand_lie(rng, G)
     χ2 = rand(rng, G)
     p = rand(S)
     @test GT.check_action_morphism(A, χ1, χ2, p)
     @test GT.check_apply_morphism_Identity(A, p)
     @test GT.check_trivial_infinitesimal_action(A, p, identity_element)
     @test GT.check_switch_action_direction(A, χ1, p)
+    @test GT.check_apply_diff_group(A, Identity(G), ξ1, p)
 end
