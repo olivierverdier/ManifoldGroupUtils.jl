@@ -29,10 +29,10 @@ translate_diff_id!(G, tmp, χ, ξ, conv) = translate_diff!(G, tmp, χ, Identity(
 
 Compute ``η = v χ⁻¹``, or ``χ⁻¹ v`` depending on whether the group action side is `Right` or `Left` respectively.
 """
-translate_to_id(G, χ, v, ::RightSide) = inverse_translate_diff(G, χ, χ, v, (RightAction(), RightSide()))
-translate_to_id(G, χ, v, ::LeftSide) = inverse_translate_diff(G, χ, χ, v, (LeftAction(), LeftSide()))
-translate_to_id!(G, tmp, χ, v, ::RightSide) = inverse_translate_diff!(G, tmp, χ, χ, v, (RightAction(), RightSide()))
-translate_to_id!(G, tmp, χ, v, ::LeftSide) = inverse_translate_diff!(G, tmp, χ, χ, v, (LeftAction(), LeftSide()))
+translate_to_id(G, χ, v, ::RightSide) = translate_diff(G, χ, χ, v, (LeftAction(), RightSide()))
+translate_to_id(G, χ, v, ::LeftSide) = translate_diff(G, χ, χ, v, (RightAction(), LeftSide()))
+translate_to_id!(G, tmp, χ, v, ::RightSide) = translate_diff!(G, tmp, χ, χ, v, (LeftAction(), RightSide()))
+translate_to_id!(G, tmp, χ, v, ::LeftSide) = translate_diff!(G, tmp, χ, χ, v, (RightAction(), LeftSide()))
 
 
 
