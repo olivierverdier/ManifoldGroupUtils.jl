@@ -21,18 +21,16 @@ algebra(G) = TangentSpace(G, identity_element(G))
 
 @deprecate inverse_adjoint_action(G::AbstractDecoratorManifold, χ, X) adjoint_action(G, χ, ξ, RightAction())
 
-translate_diff_id(G, χ, ξ, conv) = translate_diff(G, χ, Identity(G), ξ, conv)
-translate_diff_id!(G, tmp, χ, ξ, conv) = translate_diff!(G, tmp, χ, Identity(G), ξ, conv)
 
 """
     translate_to_id(G, χ, v, ::GroupActionSide)
 
 Compute ``η = v χ⁻¹``, or ``χ⁻¹ v`` depending on whether the group action side is `Right` or `Left` respectively.
 """
-translate_to_id(G, χ, v, ::RightSide) = translate_diff(G, χ, χ, v, (LeftAction(), RightSide()))
-translate_to_id(G, χ, v, ::LeftSide) = translate_diff(G, χ, χ, v, (RightAction(), LeftSide()))
-translate_to_id!(G, tmp, χ, v, ::RightSide) = translate_diff!(G, tmp, χ, χ, v, (LeftAction(), RightSide()))
-translate_to_id!(G, tmp, χ, v, ::LeftSide) = translate_diff!(G, tmp, χ, χ, v, (RightAction(), LeftSide()))
+translate_to_id(G, χ, v, ::RightSide) = apply_diff(GroupOperationAction(G, (LeftAction(), RightSide())), χ, χ, v)
+translate_to_id!(G, tmp, χ, v, ::RightSide) = apply_diff!(GroupOperationAction(G, (LeftAction(), RightSide())), tmp, χ, χ, v)
+translate_to_id(G, χ, v, ::LeftSide) = apply_diff(GroupOperationAction(G, (RightAction(), LeftSide())), χ, χ, v)
+translate_to_id!(G, tmp, χ, v, ::LeftSide) = apply_diff!(GroupOperationAction(G, (RightAction(), LeftSide())), tmp, χ, χ, v)
 
 
 
@@ -42,10 +40,10 @@ translate_to_id!(G, tmp, χ, v, ::LeftSide) = translate_diff!(G, tmp, χ, χ, v,
 The left translation ``T_L(g,ξ) = gξ`` for the `Left` side,
  or right translation ``T_R(g,ξ) = ξg`` for the `Right` side.
 """
-translate_from_id(G, χ, ξ, ::LeftSide) = translate_diff_id(G, χ, ξ, (LeftAction(), LeftSide()))
-translate_from_id(G, χ, ξ, ::RightSide) = translate_diff_id(G, χ, ξ, (RightAction(), RightSide()))
-translate_from_id!(G, tmp, χ, ξ, ::LeftSide) = translate_diff_id!(G, tmp, χ, ξ, (LeftAction(), LeftSide()))
-translate_from_id!(G, tmp, χ, ξ, ::RightSide) = translate_diff_id!(G, tmp, χ, ξ, (RightAction(), RightSide()))
+translate_from_id(G, χ, ξ, ::LeftSide) = apply_diff(GroupOperationAction(G, (LeftAction(), LeftSide())), χ, Identity(G), ξ)
+translate_from_id!(G, tmp, χ, ξ, ::LeftSide) = apply_diff!(GroupOperationAction(G, (LeftAction(), LeftSide())), tmp, χ, Identity(G), ξ)
+translate_from_id(G, χ, ξ, ::RightSide) = apply_diff(GroupOperationAction(G, (RightAction(), RightSide())), χ, Identity(G), ξ)
+translate_from_id!(G, tmp, χ, ξ, ::RightSide) = apply_diff!(GroupOperationAction(G, (RightAction(), RightSide())), tmp, χ, Identity(G), ξ)
 
 
 """
