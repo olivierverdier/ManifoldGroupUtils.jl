@@ -12,6 +12,11 @@ export algebra, rand_lie,
     exp_group, exp_group!,
     log_group, log_group!
 
+export CovariantAction, ContravariantAction
+
+const CovariantAction = LeftAction
+const ContravariantAction = RightAction
+
 """
     algebra(G)
 
