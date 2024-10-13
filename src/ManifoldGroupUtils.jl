@@ -17,6 +17,10 @@ export CovariantAction, ContravariantAction
 const CovariantAction = LeftAction
 const ContravariantAction = RightAction
 
+export DualGroupOperationAction
+
+DualGroupOperationAction(G, conv=LeftAction()) = GroupOperationAction(G, (conv, RightSide()))
+
 """
     algebra(G)
 
